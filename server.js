@@ -37,7 +37,7 @@ mongoose
 
 const app = require(`${__dirname}/app.js`);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // app.listen nos regresa un objeto de
 const server = app.listen(port, () => {
