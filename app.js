@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const compression = require('compression');
 
 // ROUTERS
 const viewRouter = require('./routes/viewRoutes');
@@ -40,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // GLOBAL MIDDLEWARES
 // Las lecturas solo se leen una vez y se quedan en el process que está disponible
 // en todos los archivos
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
@@ -105,8 +106,10 @@ app.use(
     })
 );
 
+app.use(compression());
+
 app.use((req, res, next) => {
-    console.log(req.cookies);
+    // console.log(req.cookies);
     next();
 });
 
