@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
         "start:dev": "nodemon server.js",
         "start:prod": "NODE_ENV=production nodemon server.js",
         "debug": "ndb server.js",
@@ -41,5 +42,8 @@
     },
     "devDependencies": {
         "parcel-bundler": "^1.12.5"
+    },
+    "engines": {
+        "node": ">=10.0.0"
     }
 }
