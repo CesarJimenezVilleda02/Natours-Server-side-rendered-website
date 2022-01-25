@@ -2,7 +2,7 @@
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
-const APIFeatures = require(`${__dirname}/../utils/APIFeatures`);
+const APIFeatures = require(`./../utils/apiFeatures`);
 
 // esta es la generalizacion, esta va a funcionar para cada modelo
 exports.deleteOne = (Model) =>
