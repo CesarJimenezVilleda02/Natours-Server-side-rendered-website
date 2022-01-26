@@ -36,6 +36,8 @@ app.use(
         credentials: true,
     })
 );
+// es como app.get()
+app.options('*', cors());
 
 // SERVING STATIC FILES
 app.use(express.static(path.join(__dirname, 'public')));
