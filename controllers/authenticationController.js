@@ -13,15 +13,15 @@ const signToken = (id) => {
     });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 60 * 1000
         ),
         httpOnly: true,
+        secure: req.secure || req.headders('x-forwarded-proto') === 'https',
     };
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
     res.cookie('jwt', token, cookieOptions);
 
@@ -49,7 +49,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     const url = `${req.protocol}://${req.get('host')}/me`;
     await new Email(newUser, url).sendWelcome();
 
-    return createSendToken(newUser, 201, res);
+    return createSendToken(newUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -71,7 +71,7 @@ exports.login = catchAsync(async (req, res, next) => {
     } // si hasta aqui no ha mandado alv ps ya llegamos a lo bueno
 
     // 3 enviar la JWT de regreso al cliente
-    createSendToken(user, 201, res);
+    createSendToken(user, 201, req, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -208,7 +208,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     // 4 log the user in and send jwt
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 // vamos anecesitar que el user vuelva a pasar su password
@@ -227,7 +227,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     user.passwordConfirm = req.body.passwordConfirm;
     await user.save();
     // 4 log the user in sending JWT
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 // Only for rendered pages, no errors!

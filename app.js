@@ -23,6 +23,8 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 // le tenemos que decir donde estan las views, debemos crear una carpeta view -> MVC
 // const path = require('path'); //libreria ya incluida que nos permite generar paths
