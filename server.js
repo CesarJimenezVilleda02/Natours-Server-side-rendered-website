@@ -55,3 +55,12 @@ process.on('unhandledRejection', (err) => {
     // 1 es un codigo para unhandled rejection
 });
 // esta es una red que atrapara todas las promesas rechazadas no atrapadas
+
+process.on('SIGTERM', () => {
+    console.log('SIGTERM received. Shutting down.');
+    // no tenemos que usar el exit porque ya lo va a hacer el heroku
+    // este metodo nos deja hacer que todas las respuestas pendientes se manejen antes de que termine
+    server.close(() => {
+        console.log('Process terminated.');
+    });
+});
