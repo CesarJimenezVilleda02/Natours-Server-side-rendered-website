@@ -20,7 +20,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         payment_method_types: ['card'],
         // esta es la url a la que redirigira el usuario cuando se complete la compra
         // con la query string y los rags crearemos el nuevo booking
-        success_url: `${req.protocol}://${req.get('host')}/my-tours`,
+        success_url: `${req.protocol}://${req.get(
+            'host'
+        )}/my-tours?alert=booking`,
         cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
         // se prellena el campo
         customer_email: req.user.email,

@@ -13,10 +13,13 @@ const {
     getAccount,
     getMyTours,
     updateUserData,
+    alert,
 } = require('./../controllers/viewsController');
 const { createBookingCheckout } = require('./../controllers/bookingController');
 
 const router = express.Router();
+
+router.use(alert);
 
 // queremos saber siempre si esta logueado, este le va a psar si el user
 // esta logueado a las variables de las templates
