@@ -86,6 +86,7 @@ const handleJWTExpiredError = (err) =>
 // si le damos 4 va a reconocer solo que estamos definiendo un middleware para errores que solo se va a llamar cuando haya
 // errores
 module.exports = (err, req, res, next) => {
+    console.log(err);
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 

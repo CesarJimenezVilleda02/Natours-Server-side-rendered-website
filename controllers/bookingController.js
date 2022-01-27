@@ -84,6 +84,7 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
         ); //es para que el proceso sea muy seguro
     } catch (e) {
         // este se le va a enviar a stripe
+        console.log(e);
         return res.status(400).send(`Webhook error: ${err.message}`);
     }
     // este es el tipo que definimos en stripe
