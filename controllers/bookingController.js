@@ -66,7 +66,7 @@ exports.createBookingCheckout = async (session) => {
     // recordemos que creaos el client_reference_id que contiene el touris
     const tourId = session.client_reference_id;
     const userId = (await User.findOne({ email: session.customer_email })).id;
-    const price = session.line_items[0].amount / 100;
+    const price = session.amount_total / 100;
 
     await Booking.create({ tourId, userId, price });
 };
@@ -89,7 +89,7 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
     // este es el tipo que definimos en stripe
     if (event.type === 'checkout.session.completed')
         // con los datos de la sesion crearemos el booking
-        createBookingCheckout(event.data.object);
+        await createBookingCheckout(event.data.object);
 
     res.status(200).json({ received: true });
 });
