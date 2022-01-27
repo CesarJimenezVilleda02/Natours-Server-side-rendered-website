@@ -62,7 +62,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 //     res.redirect(req.originalUrl.split('?')[0]);
 // });
 
-exports.createBookingCheckout = async (session) => {
+const createBookingCheckout = async (session) => {
     // recordemos que creaos el client_reference_id que contiene el touris
     const tourId = session.client_reference_id;
     const userId = (await User.findOne({ email: session.customer_email })).id;
