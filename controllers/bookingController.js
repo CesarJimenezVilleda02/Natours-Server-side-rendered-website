@@ -33,7 +33,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
                 description: tour.summary,
                 // estas imagenes deben de ser live images, ahora vamos ausar unas d placeholder
                 images: [
-                    `https://www.natours.dev/img/tours/${tour.imageCover}`,
+                    `https://natours-serverside-website.herokuapp.com/${tour.imageCover}`,
                 ],
                 // luego sigue el precio que se va cobrar la cual se espera en centavos
                 amount: tour.price * 100,
@@ -66,7 +66,7 @@ exports.createBookingCheckout = async (session) => {
     // recordemos que creaos el client_reference_id que contiene el touris
     const tourId = session.client_reference_id;
     const userId = (await User.findOne({ email: session.customer_email })).id;
-    const price = session.line_items[0].amount / 100;
+    const price = session.amount_total / 100;
 
     await Booking.create({ tourId, userId, price });
 };
@@ -87,7 +87,7 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
         return res.status(400).send(`Webhook error: ${err.message}`);
     }
     // este es el tipo que definimos en stripe
-    if (event.type === 'checkout.session.complete')
+    if (event.type === 'checkout.session.completed')
         // con los datos de la sesion crearemos el booking
         createBookingCheckout(event.data.object);
 
