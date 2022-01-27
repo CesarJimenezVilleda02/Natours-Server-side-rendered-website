@@ -26,7 +26,8 @@ router.use(isLoggedIn);
 router.get('/me', protect, getAccount);
 router.get('/my-tours', protect, getMyTours);
 // si no trae params solo ensena la overview
-router.get('/', createBookingCheckout, getOverview);
+// router.get('/', createBookingCheckout, getOverview);
+router.get('/', getOverview);
 router.get('/login', getLoginForm);
 router.get('/signup', getSignUpForm);
 router.get('/logout', logout);

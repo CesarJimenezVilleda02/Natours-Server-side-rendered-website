@@ -16,6 +16,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 
 // APP ERROR
 const AppError = require('./utils/appError');
@@ -82,6 +83,14 @@ const limiter = rateLimit({
 });
 // con esto el limitador es una funcion
 app.use('/api', limiter); //afectara todas las rutas que inicien con /api
+
+// lo queremos antes dle body parser porque el body va a ser una string que no debe ser convertida a json
+// lo tenemos que pasar a una raw form, para esto usamos un middleware de express
+app.post(
+    '/webhook-checkout',
+    express.raw({ type: 'applicatio/json' }),
+    bookingController.webhookCheckout
+);
 
 // BODY PARSER, reading from body into req.body
 app.use(express.json({ limit: '10kb' })); // con esto le decimos que no se pase mas largo de este body
