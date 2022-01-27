@@ -33,7 +33,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
                 description: tour.summary,
                 // estas imagenes deben de ser live images, ahora vamos ausar unas d placeholder
                 images: [
-                    `https://natours-serverside-website.herokuapp.com/${tour.imageCover}`,
+                    `https://natours-serverside-website.herokuapp.com/img/tours/${tour.imageCover}`,
                 ],
                 // luego sigue el precio que se va cobrar la cual se espera en centavos
                 amount: tour.price * 100,
@@ -66,7 +66,7 @@ exports.createBookingCheckout = async (session) => {
     // recordemos que creaos el client_reference_id que contiene el touris
     const tourId = session.client_reference_id;
     const userId = (await User.findOne({ email: session.customer_email })).id;
-    const price = session.amount_total / 100;
+    const price = session.line_items[0].amount / 100;
 
     await Booking.create({ tourId, userId, price });
 };
