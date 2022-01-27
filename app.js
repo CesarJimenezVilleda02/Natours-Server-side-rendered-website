@@ -88,7 +88,7 @@ app.use('/api', limiter); //afectara todas las rutas que inicien con /api
 // lo tenemos que pasar a una raw form, para esto usamos un middleware de express
 app.post(
     '/webhook-checkout',
-    express.raw({ type: 'applicatio/json' }),
+    express.raw({ type: 'application/json' }),
     bookingController.webhookCheckout
 );
 
